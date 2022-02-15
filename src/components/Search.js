@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { Component } from "react";
 import FlightResult from './FlightResult'
+import './Search.css'
 
 const RAILS_FLIGHTS_BASE_URL = "http://localhost:3000/flights";
 
@@ -73,14 +74,17 @@ export default class Search extends Component {
           ?
           <p>Loading Results</p>
           :
-          <table>
-            <thead>
+          <table className="search-results-container">
+            <tbody>
+            <tr>
               <th>Date</th>
               <th>Flight</th>
-              <th>From > To</th>
+              <th>From</th>
+              <th>To</th>
               <th>Plane </th>
-            </thead>
-            {this.state.searchResults.map(flight => <FlightResult info={flight} key={flight.id}/>)}
+            </tr>
+              {this.state.searchResults.map(flight => <FlightResult info={flight} key={flight.id} history={this.props.history}/>)}
+            </tbody>
           </table>
         }
 
