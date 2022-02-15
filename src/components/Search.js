@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import FlightResult from './FlightResult'
 import './Search.css'
 
-const RAILS_FLIGHTS_BASE_URL = "http://localhost:3000/flights";
+const RAILS_FLIGHTS_BASE_URL = "http://localhost:3000/search";
 
 export default class Search extends Component {
   state = {
@@ -35,7 +35,7 @@ export default class Search extends Component {
     this.setState({loading: false})
   };
 
-  // TODO: Make the params work
+  
   getResults = async () => {
     try {
     const res = await axios.get(RAILS_FLIGHTS_BASE_URL, {params: {origin: this.state.queryFrom, destination: this.state.queryTo}});
@@ -88,7 +88,6 @@ export default class Search extends Component {
             </tbody>
           </table>
         }
-
       </div>
     );
   }
