@@ -18,11 +18,13 @@ function render2dArray(grid) {
   return (
     <table>
       <tbody>
-        {grid.map((item, index) => {
+        {grid.map((item, row) => {
           return (
             <tr>
-              {item.map((sItem, sIndex) => 
-                <td>{sIndex}</td>
+              {item.map((sItem, column) => 
+                <td>
+                  {column}
+                </td>
               )}
             </tr>
           )
@@ -47,7 +49,11 @@ export default class Flight extends Component {
       total_rows: "15",
       total_columns: "7"
     },
-    
+    reservations: [
+      {user_id: 1, seat_row: 1, seat_column: 1, user_name: "Luke"},
+      {user_id: 2, seat_row: 2, seat_column: 2, user_name: "Ro"},
+      {user_id: 3, seat_row: 3, seat_column: 3, user_name: "Shay"},
+    ]
   }
 
   
