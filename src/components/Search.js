@@ -5,7 +5,7 @@ export default class Search extends Component {
   state = {
     queryFrom: '',
     queryTo: '',
-    searchResults: [],
+    searchResults: [], // results to show on the page    
     loading: false,  // controls whether or not to show loading message
     error: null  // whether or not to show an error message
   }
@@ -38,8 +38,6 @@ export default class Search extends Component {
           </form>
         </div>
 
-
-      
       </div>
     )
   }
