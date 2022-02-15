@@ -54,7 +54,6 @@ export default class Flight extends Component {
   
   
 
-  
   render() {
     const rows = this.state.airplane.total_rows;
     const columns = this.state.airplane.total_columns;
@@ -73,3 +72,4 @@ export default class Flight extends Component {
     )
   }
 }
+
