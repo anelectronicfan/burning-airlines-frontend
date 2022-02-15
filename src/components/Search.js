@@ -38,7 +38,7 @@ export default class Search extends Component {
   // TODO: Make the params work
   getResults = async () => {
     try {
-      const res = await axios.get(RAILS_FLIGHTS_BASE_URL, {origin: this.state.queryFrom, destination: this.state.queryTo});
+    const res = await axios.get(RAILS_FLIGHTS_BASE_URL, {params: {origin: this.state.queryFrom, destination: this.state.queryTo}});
       console.log('Flights Response: ', res.data);
       this.setState({searchResults: res.data})
     } catch (err) {
