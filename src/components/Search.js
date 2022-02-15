@@ -2,28 +2,7 @@ import axios from "axios";
 import React, { Component } from "react";
 import FlightResult from './FlightResult'
 
-// TODO: Check this URL once rails is setup! We want to get all the flights back.
 const RAILS_FLIGHTS_BASE_URL = "http://localhost:3000/flights";
-
-const TEMP_RES = [
-  {
-  id: 1,
-  origin: 'SYD',
-  destination: 'MEL',
-  date: '2022/10/1',
-  airplane_id: 99,
-  remaining_seats: 30
-  },
-  {
-    id: 2,
-    origin: 'BNE',
-    destination: 'ABC',
-    date: '2024/9/1',
-    airplane_id: 9,
-    remaining_seats: 3
-    },
-]
-
 
 export default class Search extends Component {
   state = {
@@ -51,8 +30,7 @@ export default class Search extends Component {
     e.preventDefault();
     console.log(`SUBMIT! from: ${this.state.queryFrom}, to: ${this.state.queryTo}`);
     this.setState({ loading: true });
-    // this.getResults()
-    this.setState({searchResults: TEMP_RES}) //TODO: REMOVE THIS ONCE AXIOS IS RUNNING
+    this.getResults()
     this.setState({loading: false})
   };
 
@@ -95,7 +73,15 @@ export default class Search extends Component {
           ?
           <p>Loading Results</p>
           :
-          this.state.searchResults.map(flight => <FlightResult info={flight} key={flight.id}/>)
+          <table>
+            <thead>
+              <th>Date</th>
+              <th>Flight</th>
+              <th>From > To</th>
+              <th>Plane </th>
+            </thead>
+            {this.state.searchResults.map(flight => <FlightResult info={flight} key={flight.id}/>)}
+          </table>
         }
 
       </div>
