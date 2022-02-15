@@ -14,6 +14,7 @@ function generate2dArray(columns, rows) {
   return array2d;
 }
 
+// function to render the plane's seat grid
 function render2dArray(grid) {
   return (
     <table>
@@ -22,8 +23,10 @@ function render2dArray(grid) {
           return (
             <tr>
               {item.map((sItem, column) => 
-                <td>
-                  {column}
+                <td key={row, column}>
+                  <div className="seat" onClick={() => handleClick(column, row)}>
+                    Column: {column}, Row: {row}
+                  </div>
                 </td>
               )}
             </tr>
@@ -32,7 +35,12 @@ function render2dArray(grid) {
       </tbody>
     </table>
   )
-}  
+}
+
+// function to handle events when a seat is clicked
+function handleClick(column, row) {
+  console.log("handleClick(): Column:",column, "Row:", row);
+}
 
 
 export default class Flight extends Component {
