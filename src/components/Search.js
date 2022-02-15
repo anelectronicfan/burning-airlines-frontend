@@ -19,10 +19,10 @@ export default class Search extends Component {
     // console.log(e.target.getAttribute('data-query'));
     if (e.target.getAttribute("data-query") === "from") {
       // If the input has the data-query value of "from"
-      this.setState({ queryFrom: e.target.value.toUpperCase() }); // Set the state of queryFrom to the value
+      this.setState({ queryFrom: e.target.value.toLowerCase() }); // Set the state of queryFrom to the value
     } else {
       // The inputs data-query must be "to"
-      this.setState({ queryTo: e.target.value.toUpperCase() }); //Set the state of queryTo to the value
+      this.setState({ queryTo: e.target.value.toLowerCase() }); //Set the state of queryTo to the value
     }
   };
 
@@ -35,10 +35,10 @@ export default class Search extends Component {
     this.setState({loading: false})
   };
 
-  // TODO: Check this works!!!
+  // TODO: Make the params work
   getResults = async () => {
     try {
-      const res = await axios.get(RAILS_FLIGHTS_BASE_URL, {from: this.state.from, to: this.state.to});
+      const res = await axios.get(RAILS_FLIGHTS_BASE_URL, {origin: this.state.queryFrom, destination: this.state.queryTo});
       console.log('Flights Response: ', res.data);
       this.setState({searchResults: res.data})
     } catch (err) {
