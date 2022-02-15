@@ -14,6 +14,7 @@ const FlightResult = (props) => {
       <td>{props.info.origin}</td>
       <td>{props.info.destination}</td>
       <td>{props.info.plane_name}</td>
+      <td>{props.info.remaining_seats}</td>
     </tr>
   )
 }

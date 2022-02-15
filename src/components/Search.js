@@ -19,10 +19,10 @@ export default class Search extends Component {
     // console.log(e.target.getAttribute('data-query'));
     if (e.target.getAttribute("data-query") === "from") {
       // If the input has the data-query value of "from"
-      this.setState({ queryFrom: e.target.value.toLowerCase() }); // Set the state of queryFrom to the value
+      this.setState({ queryFrom: e.target.value.toUpperCase() }); // Set the state of queryFrom to the value
     } else {
       // The inputs data-query must be "to"
-      this.setState({ queryTo: e.target.value.toLowerCase() }); //Set the state of queryTo to the value
+      this.setState({ queryTo: e.target.value.toUpperCase() }); //Set the state of queryTo to the value
     }
   };
 
@@ -82,6 +82,7 @@ export default class Search extends Component {
               <th>From</th>
               <th>To</th>
               <th>Plane </th>
+              <th>Seats Left</th>
             </tr>
               {this.state.searchResults.map(flight => <FlightResult info={flight} key={flight.id} history={this.props.history}/>)}
             </tbody>
