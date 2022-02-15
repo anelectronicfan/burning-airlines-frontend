@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import "./BurningAirlines.css";
+import "./Flight.css";
 
 
 // Function to generate a 2d array
