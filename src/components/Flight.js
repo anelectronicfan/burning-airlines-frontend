@@ -81,12 +81,12 @@ export default class Flight extends Component {
       <div className='plane-seating-container'>
         {grid.map((item, row) => {
             return (
-              <div className='plane-seating-row'>
+              <div key={row} className='plane-seating-row'>
                 {item.map((sItem, column) => 
                   sItem? 
-                  <div className="plane-seating-seat booked">{sItem}</div>
+                  <div key={`${row+1}${String.fromCharCode(column+65)}`} className="plane-seating-seat booked">{sItem}</div>
                   :
-                  <div className="plane-seating-seat available" onClick={() => this.handleClick(column, row)}>
+                  <div key={`${row+1}${String.fromCharCode(column+65)}`}className="plane-seating-seat available" onClick={() => this.handleClick(column, row)}>
                     {`${row+1}${String.fromCharCode(column+65)}`}
                   </div>
                 )}
