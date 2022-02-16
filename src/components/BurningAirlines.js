@@ -5,8 +5,9 @@ import "./BurningAirlines.css";
 import Header from "./Header";
 import Search from "./Search";
 import Flight from "./Flight";
-import Reservations from "./Reservations";
-import FlightsIndex from "./AdminFlights"
+import AirplanesIndex from "./AirplanesIndex"
+import FlightsIndex from "./FlightsIndex"
+>>>>>>> 253c2e87f0254cee36bfa40f52f4db0a145569ce
 
 
 export default class BurningAirlines extends Component {
