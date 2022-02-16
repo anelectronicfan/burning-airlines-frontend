@@ -67,13 +67,14 @@ export default class Flight extends Component {
   }
 
   componentDidUpdate() {
-
+    console.log("this.state.newReservations: ", this.state.newReservations);
   }
 
   // function to handle events when a seat is clicked
   handleClick = (column, row) => {
     console.log("handleClick(): Column:",column, "Row:", row);
-    this.addNewReservation(column,row)
+    this.addNewReservation(column,row);
+    
   }
 
   // function to render the plane's seat grid
@@ -101,8 +102,6 @@ export default class Flight extends Component {
 
   addNewReservation = (column, row) => {
     const newRes = {
-      flight_id: this.state.flightData.flight.id, 
-      user_id: this.state.flightData.user.id,
       seat_row: row,
       seat_column: column
     }
@@ -110,7 +109,11 @@ export default class Flight extends Component {
     this.setState({
       newReservations: [newRes, ...this.state.newReservations]
     })
-    console.log("this.state.newReservations: ", this.state.newReservations);
+    
+  }
+
+  removeNewResevation = () => {
+    this.newReservations.pop()
   }
   
 
@@ -156,7 +159,7 @@ export default class Flight extends Component {
     const destination = this.state.flightData.flight.destination;
     const reservations = this.state.flightData.reservations;
 
-    const seatGrid = generate2dArray(columns, rows);
+    const seatGrid = generate2dArray(columns, rows); // 2darray
 
     if (reservations.length !== 0) {
       reservations.forEach( r => {
