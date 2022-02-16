@@ -73,10 +73,13 @@ export default class Flight extends Component {
   // function to handle events when a seat is clicked
   handleClick = (column, row) => {
     console.log("handleClick(): Column:",column, "Row:", row);
+
     const existingHold = this.state.newReservations.find(res=> res.seat_row === row && res.seat_column === column)
+
     if(existingHold){
       console.log('EXISTING HOLD');
       const copyNewRes = this.state.newReservations.slice()
+      
       this.setState({newReservations: copyNewRes.filter(hold=>{
         return !(hold.seat_row === row && hold.seat_column === column)
       })})

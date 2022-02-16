@@ -34,8 +34,8 @@ table {
   border: 1px solid red;
   transform: translate(calc(-100% - 1rem));
   top: 40%;
-  border-top-left-radius: 1rem;
-  border-bottom-left-radius: 80% 4rem;
+  border-bottom-left-radius: 1rem;
+  border-top-left-radius: 80% 4rem;
 }
 .plane-seating-container::after{
   content: '';
@@ -45,8 +45,8 @@ table {
   border: 1px solid red;
   transform: translate(calc(100% - 1.13rem));
   top: 40%;
-  border-top-right-radius: 1rem;
-  border-bottom-right-radius: 80% 4rem;
+  border-bottom-right-radius: 1rem;
+  border-top-right-radius: 80% 4rem;
 }
 
 .plane-container{
