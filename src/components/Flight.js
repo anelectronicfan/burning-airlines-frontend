@@ -5,7 +5,7 @@ import "./Flight.css";
 import axios from 'axios';
 
 const RAILS_FLIGHTS_SHOW_BASE_URL = "http://localhost:3000/flights/"
-const RAILS_RESERVATIONS_CREATE_BASE_URL = "" // TODO:
+const RAILS_RESERVATIONS_CREATE_BASE_URL = "http://localhost:3000/reservations"
 
 
 function generate2dArray(columns, rows) {
@@ -26,12 +26,10 @@ function generate2dArray(columns, rows) {
 function populate2dArray(array, column, row, name) {
   array[column][row].name = name;
 }
+
 function populate2dArrayHolds(array, column, row) {
   array[column][row].hold = true;
 }
-
-
-
 
 export default class Flight extends Component {
   state = {
@@ -64,6 +62,30 @@ export default class Flight extends Component {
 
   componentDidMount() {
     this.fetchFlightData();
+    const that = this;
+
+    window.setInterval( function() {
+      that.fetchFlightData();
+
+      const copyNewRes = that.state.newReservations.slice()
+      
+      that.setState({newReservations: copyNewRes.filter(r => {
+        return !that.doesReservationExist(r)
+      })})
+
+      // this.setState({newReservations: copyNewRes.filter(hold=>{
+      //   return !(hold.seat_row === row && hold.seat_column === column)
+      // }
+      //const existingHold = this.state.newReservations.find(res=> res.seat_row === row && res.seat_column === column)
+
+      
+    }, 5000)
+  }
+
+  doesReservationExist = (r) => {
+    const ResStringify = JSON.stringify(this.state.flightData.reservations)
+    const rStringify = JSON.stringify(r)
+    return ResStringify.includes(rStringify)
   }
 
   componentDidUpdate() {
@@ -79,7 +101,7 @@ export default class Flight extends Component {
     if(existingHold){
       console.log('EXISTING HOLD');
       const copyNewRes = this.state.newReservations.slice()
-      
+
       this.setState({newReservations: copyNewRes.filter(hold=>{
         return !(hold.seat_row === row && hold.seat_column === column)
       })})
@@ -115,43 +137,45 @@ export default class Flight extends Component {
   addNewReservation = (column, row) => {
     const newRes = {
       seat_row: row,
-      seat_column: column
+      seat_column: column,
+      flight_id: this.state.flightData.flight.id,
+      user_id: this.state.flightData.user.id
     }
-    if (!this.doesNewResAlreadyExist(newRes)) {
-      console.log("newRes: ", newRes);
-      this.setState({
-        newReservations: [newRes, ...this.state.newReservations]
-      })
-    } else {
-      console.log("This seat has already been held")
-    }
+    console.log("newRes: ", newRes);
+    this.setState({
+      newReservations: [newRes, ...this.state.newReservations]
+    })
   }
 
-  removeNewResevation = () => {
-    this.newReservations.pop()
-  }
 
-  // A function that checks if a created object already exists in the newReservations array
-  doesNewResAlreadyExist = (newRes) => {
-    const newReservationsString = this.state.newReservations.map(JSON.stringify);
-    if (newReservationsString.includes(JSON.stringify(newRes))) {
-      console.log("doesNewResAlreadyExist: true");
-      return true;
-    } else {
-      console.log("doesNewResAlreadyExist: false");
-      return false;
-    }
-  }
+  // handleReservationsClick = ()=>{
+  //   this.state.newReservations.forEach(res=>{
+  //     this.commitNewReservation(res)
+  //   })
+  // }
+
+  // commitNewReservation = async (resObj) => {
+
+  //   try {
+  //     const res = await axios.post(RAILS_RESERVATIONS_CREATE_BASE_URL, resObj)
+  //     console.log('commitNewReservation()', res);
+  //   } catch (err) {
+  //     console.log('Error making reservation:', err)
+  //   }
   
+  // }
 
+ 
 
-
-  commitNewReservation = async () => {
+  handleReservationsClick = async () => {
 
     try {
-      const res = await axios.post(
-        RAILS_FLIGHTS_SHOW_BASE_URL)
-  
+      const res = await axios.post(RAILS_RESERVATIONS_CREATE_BASE_URL, this.state.newReservations)
+      console.log('commitNewReservation()', res);
+      this.fetchFlightData();
+      // clear newReservations
+      this.setState({newReservations: []})
+
     } catch (err) {
       console.log('Error making reservation:', err)
     }
@@ -180,7 +204,7 @@ export default class Flight extends Component {
     const flightID = this.state.flightData.flight.id;
     const date = this.state.flightData.flight.date;
 
-    const userID = this.state.flightData.user.id;
+    
     
     const origin = this.state.flightData.flight.origin;
     const destination = this.state.flightData.flight.destination;
@@ -190,7 +214,7 @@ export default class Flight extends Component {
 
     if (reservations.length !== 0) {
       reservations.forEach( r => {
-        populate2dArray(seatGrid, r.seat_column, r.seat_row, r.name)
+        populate2dArray(seatGrid, r.seat_row, r.seat_column, r.name)
       })
     }
 
@@ -218,7 +242,7 @@ export default class Flight extends Component {
             </div>
             <div className='holding-list'>
               <h4>Holding {this.state.newReservations.length} Seats</h4>
-              <button>Make Reservation</button>
+              <button onClick={this.handleReservationsClick}>Make Reservation</button>
               {this.state.newReservations.map(r => <div key={`${r.seat_row+1}${String.fromCharCode(r.seat_column+65)}`}>{`${r.seat_row+1}${String.fromCharCode(r.seat_column+65)}`} </div>)}
             </div>
           </div>
