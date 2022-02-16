@@ -30,6 +30,7 @@ function populate2dArray(array, column, row, name) {
 
 
 
+
 export default class Flight extends Component {
   state = {
     flightData: {
