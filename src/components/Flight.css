@@ -4,4 +4,9 @@ table {
 
 .seat{
   border: 1px solid black;
+  cursor: pointer;
+}
+
+.seat:hover{
+  background-color: antiquewhite;
 }

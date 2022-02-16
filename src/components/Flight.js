@@ -2,6 +2,11 @@ import React, { Component } from 'react'
 import "./BurningAirlines.css";
 import "./Flight.css";
 
+import axios from 'axios';
+
+const RAILS_FLIGHTS_SHOW_BASE_URL = "http://localhost:3000/flights/"
+const RAILS_RESERVATIONS_CREATE_BASE_URL = "" // TODO:
+
 
 // Function to generate a 2d array
 function generate2dArray(columns, rows) {
@@ -9,11 +14,15 @@ function generate2dArray(columns, rows) {
   for (let i = 0; i < rows; i++) {
     let array1d = [];
     for (let j = 0; j < columns; j++) {
-      array1d.push(j);
+      array1d.push("Reserve");
     }
     array2d.push(array1d);
   }
   return array2d;
+}
+
+function populate2dArray(array, column, row, name) {
+  array[column][row] = name;
 }
 
 // function to render the plane's seat grid
@@ -27,7 +36,7 @@ function render2dArray(grid) {
               {item.map((sItem, column) => 
                 <td key={row, column}>
                   <div className="seat" onClick={() => handleClick(column, row)}>
-                    Column: {column}, Row: {row}
+                    {sItem}
                   </div>
                 </td>
               )}
@@ -45,44 +54,117 @@ function handleClick(column, row) {
 }
 
 
+
+
 export default class Flight extends Component {
   state = {
-    flight: {
-      id: 2,
-      origin: "sydney",
-      destination: "melbourne",
-      date: "2022/05/09",
-      airplane_id: 1
+    flightData: {
+      flight: {
+        id: 0,
+        origin: "",
+        destination: "",
+        date: "",
+        airplane_id: 0
+      },
+      airplane: {
+        total_columns: 0,
+        total_rows: 0
+      },
+      reservations: [],
+      user: {
+        id: 0,
+        name: ""
+      }
     },
-    airplane: {
-      name: "first airplane",
-      total_rows: "15",
-      total_columns: "7"
-    },
-    reservations: [
-      {user_id: 1, seat_row: 1, seat_column: 1, user_name: "Luke"},
-      {user_id: 2, seat_row: 2, seat_column: 2, user_name: "Ro"},
-      {user_id: 3, seat_row: 3, seat_column: 3, user_name: "Shay"},
-    ]
+      
+    
+    loading: false,
+    error: null
+    
   }
 
+  componentDidMount() {
+    this.fetchFlightData();
+  }
+
+  componentDidUpdate() {
+
+  }
+
+  makeReservation = async () => {
+
+    try {
+      const res = await axios.post(
+        RAILS_FLIGHTS_SHOW_BASE_URL, {
+          flight_id: this.state.flightData.flight.id, 
+          user_id: this.state.flightData.user.id,
+          seat_row: this.state.flightData.airplane.total_rows,
+          seat_column: this.state.flightData.airplane.total_columns
+        }
+      )
+  
+    } catch (err) {
+      console.log('Error making reservation:', err)
+    }
+  
+  }
+
+  fetchFlightData = async () => {
+    try {
+      const res = await axios.get(`${RAILS_FLIGHTS_SHOW_BASE_URL}${this.props.match.params.id}`  );
+      console.log('getFlightData():', res.data);
+      this.setState({flightData: res.data, loading: false});
+      console.log('this.state.flightData: ',this.state.flightData)
+    } catch (err) {
+      console.log('error:', err);
+      this.setState({error: err})
+    }
+  }
+  
   
   
   
 
   render() {
-    const rows = this.state.airplane.total_rows;
-    const columns = this.state.airplane.total_columns;
+    const rows = this.state.flightData.airplane.total_rows;
+    const columns = this.state.flightData.airplane.total_columns;
+    const flightID = this.state.flightData.flight.id;
+    const date = this.state.flightData.flight.date;
+
+    const userID = this.state.flightData.user.id;
+    
+    const origin = this.state.flightData.flight.origin;
+    const destination = this.state.flightData.flight.destination;
+    const reservations = this.state.flightData.reservations;
+
     const seatGrid = generate2dArray(columns, rows);
+
+    if (reservations.length !== 0) {
+      reservations.forEach( r => {
+        populate2dArray(seatGrid, r.seat_column, r.seat_row, r.name)
+      })
+    }
+    
+    
+
+    const {loading, error} = this.state
 
     return (
       <div>
-        Flight {this.state.flight.id}
+        {
+          loading
+          ?
+          <h3>Loading...</h3>
+          :
+          <div>
+            
+            <h3>{date} | Flight {flightID} | {origin} {'>'} {destination}</h3> 
+            <div>{render2dArray(seatGrid)}</div>
+          </div>
+        }
+        
 
-        <div>
-          {render2dArray(seatGrid)}
-
-        </div>
+        
         
       </div>
     )
