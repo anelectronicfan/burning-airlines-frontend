@@ -26,31 +26,6 @@ function populate2dArray(array, column, row, name) {
 }
 
 
-function render2dArray(grid) {
-  return(
-    <div className='plane-seating-container'>
-      {grid.map((item, row) => {
-          return (
-            <div className='plane-seating-row'>
-              {item.map((sItem, column) => 
-                sItem? 
-                <div className="plane-seating-seat booked">{sItem}</div>
-                :
-                <div className="plane-seating-seat available" onClick={()=>handleClick(column, row)}>
-                  {`${row+1}${String.fromCharCode(column+65)}`}
-                </div>
-              )}
-            </div>
-          )
-        })}
-    </div>
-  )
-}
-
-// function to handle events when a seat is clicked
-function handleClick(column, row) {
-  console.log("handleClick(): Column:",column, "Row:", row);
-}
 
 
 
@@ -73,8 +48,10 @@ export default class Flight extends Component {
       user: {
         id: 0,
         name: ""
-      }
+      },
+      
     },
+    newReservations: [],
       
     
     loading: false,
@@ -90,17 +67,57 @@ export default class Flight extends Component {
 
   }
 
-  makeReservation = async () => {
+  // function to handle events when a seat is clicked
+  handleClick = (column, row) => {
+    console.log("handleClick(): Column:",column, "Row:", row);
+    this.addNewReservation(column,row)
+  }
+
+  // function to render the plane's seat grid
+  render2dArray = (grid) => {
+    return(
+      <div className='plane-seating-container'>
+        {grid.map((item, row) => {
+            return (
+              <div className='plane-seating-row'>
+                {item.map((sItem, column) => 
+                  sItem? 
+                  <div className="plane-seating-seat booked">{sItem}</div>
+                  :
+                  <div className="plane-seating-seat available" onClick={() => this.handleClick(column, row)}>
+                    {`${row+1}${String.fromCharCode(column+65)}`}
+                  </div>
+                )}
+              </div>
+            )
+          })}
+      </div>
+    )
+  }
+
+
+  addNewReservation = (column, row) => {
+    const newRes = {
+      flight_id: this.state.flightData.flight.id, 
+      user_id: this.state.flightData.user.id,
+      seat_row: row,
+      seat_column: column
+    }
+    console.log("newRes: ", newRes);
+    this.setState({
+      newReservations: [newRes, ...this.state.newReservations]
+    })
+    console.log("this.state.newReservations: ", this.state.newReservations);
+  }
+  
+
+
+
+  commitNewReservation = async () => {
 
     try {
       const res = await axios.post(
-        RAILS_FLIGHTS_SHOW_BASE_URL, {
-          flight_id: this.state.flightData.flight.id, 
-          user_id: this.state.flightData.user.id,
-          seat_row: this.state.flightData.airplane.total_rows,
-          seat_column: this.state.flightData.airplane.total_columns
-        }
-      )
+        RAILS_FLIGHTS_SHOW_BASE_URL)
   
     } catch (err) {
       console.log('Error making reservation:', err)
@@ -158,7 +175,7 @@ export default class Flight extends Component {
           <div>
             
             <h3>{date} | Flight {flightID} | {origin} {'>'} {destination}</h3> 
-            <div>{render2dArray(seatGrid)}</div>
+            <div>{this.render2dArray(seatGrid)}</div>
           </div>
         }
         
