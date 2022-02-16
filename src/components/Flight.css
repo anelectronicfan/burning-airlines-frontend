@@ -10,3 +10,38 @@ table {
 .seat:hover{
   background-color: antiquewhite;
 }
+
+.plane-seating-container{
+  font-size: 0.5rem;
+  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  gap: 1em;
+  margin: 0 auto;
+  padding: 10rem 1rem 5rem;
+  border-radius: 5rem;
+  border-top-left-radius: 50% 10rem;
+  border-top-right-radius: 50% 10rem;
+  
+}
+
+.plane-container{
+  border: 1px solid blue;
+  margin: 1rem;
+
+}
+
+.plane-seating-row{
+  border: 1px solid blue;
+  display: flex;
+  gap: 0.5em;
+}
+
+.plane-seating-seat{
+  border: 1px solid green;
+  width: 3em;
+  padding: 1em 0;
+  text-align: center;
+  border-radius: 1em;
+}

@@ -14,7 +14,7 @@ function generate2dArray(columns, rows) {
   for (let i = 0; i < rows; i++) {
     let array1d = [];
     for (let j = 0; j < columns; j++) {
-      array1d.push("Reserve");
+      array1d.push("");
     }
     array2d.push(array1d);
   }
@@ -25,26 +25,22 @@ function populate2dArray(array, column, row, name) {
   array[column][row] = name;
 }
 
-// function to render the plane's seat grid
+
 function render2dArray(grid) {
-  return (
-    <table>
-      <tbody>
-        {grid.map((item, row) => {
+  return(
+    <div className='plane-seating-container'>
+      {grid.map((item, row) => {
           return (
-            <tr>
+            <div className='plane-seating-row'>
               {item.map((sItem, column) => 
-                <td key={row, column}>
-                  <div className="seat" onClick={() => handleClick(column, row)}>
-                    {sItem}
-                  </div>
-                </td>
+                <div className="plane-seating-seat" onClick={() => handleClick(column, row)}>
+                  {sItem? sItem : `${row+1}${String.fromCharCode(column+65)}`}
+                </div>
               )}
-            </tr>
+            </div>
           )
         })}
-      </tbody>
-    </table>
+    </div>
   )
 }
 
