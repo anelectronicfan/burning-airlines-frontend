@@ -57,7 +57,7 @@ export default class Flight extends Component {
     
     loading: false,
     error: null
-    
+  
   }
 
   componentDidMount() {
