@@ -13,7 +13,9 @@ export default class BurningAirlines extends Component {
   
   render() {
     return (
+      
       <div className='page-wrapper'>
+        
       <Router>
 
         <Route path='/' component={Header}/>
