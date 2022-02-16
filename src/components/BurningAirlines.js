@@ -20,6 +20,8 @@ export default class BurningAirlines extends Component {
         <Route path='/' component={Header}/>
         <Route path='/search' component={Search}/>
         <Route path='/flight/:id' component={Flight}/>
+        <Route path='/admin/flights' component={FlightsIndex}/>
+        <Route path='/admin/airplanes' component={AirplanesIndex}/>
 
       </Router>
       </div>
