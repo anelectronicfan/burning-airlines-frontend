@@ -68,10 +68,14 @@ export default class Flight extends Component {
   }
 
   // function to handle events when a seat is clicked
-  handleClick = (column, row) => {
-    console.log("handleClick(): Column:",column, "Row:", row);
-    this.addNewReservation(column,row);
-    
+  handleClick = (column, row, ev) => {
+    console.log("handleClick(): Column:",column, "Row:", row, "Event.target.classList: ", ev.target.classList);
+    if (ev.target.classList.contains("available")) {
+      this.addNewReservation(column,row);
+    } else if (ev.target.classList.contains("hold")) {
+      this.removeNewReservation();
+    }
+
   }
 
   // function to render the plane's seat grid
@@ -85,7 +89,7 @@ export default class Flight extends Component {
                   sItem? 
                   <div className="plane-seating-seat booked">{sItem}</div>
                   :
-                  <div className="plane-seating-seat available" onClick={() => this.handleClick(column, row)}>
+                  <div className="plane-seating-seat available" onClick={(ev) => this.handleClick(column, row, ev)}>
                     {`${row+1}${String.fromCharCode(column+65)}`}
                   </div>
                 )}
@@ -102,15 +106,30 @@ export default class Flight extends Component {
       seat_row: row,
       seat_column: column
     }
-    console.log("newRes: ", newRes);
-    this.setState({
-      newReservations: [newRes, ...this.state.newReservations]
-    })
-    
+    if (!this.doesNewResAlreadyExist(newRes)) {
+      console.log("newRes: ", newRes);
+      this.setState({
+        newReservations: [newRes, ...this.state.newReservations]
+      })
+    } else {
+      console.log("This seat has already been held")
+    }
   }
 
   removeNewResevation = () => {
     this.newReservations.pop()
+  }
+
+  // A function that checks if a created object already exists in the newReservations array
+  doesNewResAlreadyExist = (newRes) => {
+    const newReservationsString = this.state.newReservations.map(JSON.stringify);
+    if (newReservationsString.includes(JSON.stringify(newRes))) {
+      console.log("doesNewResAlreadyExist: true");
+      return true;
+    } else {
+      console.log("doesNewResAlreadyExist: false");
+      return false;
+    }
   }
   
 
@@ -180,6 +199,13 @@ export default class Flight extends Component {
             <h3>{date} | Flight {flightID} | {origin} {'>'} {destination}</h3> 
             <div>{this.render2dArray(seatGrid)}</div>
           </div>
+        }
+        {
+          this.state.newReservations.length === 0
+          ?
+          <p>Please select a seat</p>
+          :
+          <button>Submit</button>
         }
         
 
