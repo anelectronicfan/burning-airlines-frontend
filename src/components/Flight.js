@@ -53,7 +53,6 @@ export default class Flight extends Component {
       
     },
     newReservations: [],
-    isComponentMounted: true,
     
     loading: false,
     error: null
@@ -64,7 +63,7 @@ export default class Flight extends Component {
     this.fetchFlightData();
     // const that = this; - Don't do this again, just don't code drunk and use an arrow function next time
 
-    this.liveUpdates = window.setInterval(() => {
+    this.liveReservationUpdates = window.setInterval(() => {
       this.fetchFlightData();
 
       const copyNewRes = this.state.newReservations.slice()
@@ -83,7 +82,7 @@ export default class Flight extends Component {
   }
 
   componentWillUnmount() {
-    clearInterval(this.liveUpdates)
+    clearInterval(this.liveReservationUpdates)
   }
 
   doesReservationExist = (r) => {

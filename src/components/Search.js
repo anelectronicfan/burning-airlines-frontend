@@ -14,6 +14,21 @@ export default class Search extends Component {
     error: null, // whether or not to show an error message
   };
 
+  componentDidMount() {
+    this.getResults();
+
+    this.liveSearchUpdates = window.setInterval(() => {
+      this.getResults();
+    }, 5000)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.liveSearchUpdates)
+  }
+
+
+
+
   // Handles the input to both text fields ("To" and "From")
   handleChange = (e) => {
     // console.log(e.target.getAttribute('data-query'));
