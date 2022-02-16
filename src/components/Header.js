@@ -9,6 +9,11 @@ export default class Header extends Component {
     this.props.history.push('/search')
   }
 
+  handleClickReservations = ()=>{
+    console.log('clicked Reservations');
+    this.props.history.push('/reservations')
+  }
+
   
 
   render() {
@@ -17,7 +22,7 @@ export default class Header extends Component {
         <h1 className="logo-airlines">ZZY Airlines</h1>
         <nav>
           <button onClick={this.handleClick}>Search Page</button>
-          <button>My Reservations</button>
+          <button onClick={this.handleClickReservations}>My Reservations</button>
         </nav>
       </div>
     )
