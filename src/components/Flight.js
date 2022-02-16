@@ -33,8 +33,11 @@ function render2dArray(grid) {
           return (
             <div className='plane-seating-row'>
               {item.map((sItem, column) => 
-                <div className="plane-seating-seat" onClick={() => handleClick(column, row)}>
-                  {sItem? sItem : `${row+1}${String.fromCharCode(column+65)}`}
+                sItem? 
+                <div className="plane-seating-seat booked">{sItem}</div>
+                :
+                <div className="plane-seating-seat available" onClick={() => handleClick(column, row)}>
+                  {`${row+1}${String.fromCharCode(column+65)}`}
                 </div>
               )}
             </div>
