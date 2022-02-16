@@ -52,7 +52,10 @@ export default class Flight extends Component {
       },
       
     },
-    newReservations: [],
+    newReservations: [{
+      seat_row: 1,
+      seat_column: 1
+    }],
       
     
     loading: false,
@@ -86,7 +89,7 @@ export default class Flight extends Component {
                   sItem? 
                   <div key={`${row+1}${String.fromCharCode(column+65)}`} className="plane-seating-seat booked">{sItem}</div>
                   :
-                  <div key={`${row+1}${String.fromCharCode(column+65)}`}className="plane-seating-seat available" onClick={() => this.handleClick(column, row)}>
+                  <div key={`${row+1}${String.fromCharCode(column+65)}`} className="plane-seating-seat available" onClick={() => this.handleClick(column, row)}>
                     {`${row+1}${String.fromCharCode(column+65)}`}
                   </div>
                 )}
@@ -177,15 +180,17 @@ export default class Flight extends Component {
           <h3>Loading...</h3>
           :
           <div>
-            
-            <h3>{date} | Flight {flightID} | {origin} {'>'} {destination}</h3> 
-            <div>{this.render2dArray(seatGrid)}</div>
+            <div className='plane-container'>
+              <h3>{date} | Flight {flightID} | {origin} {'>'} {destination}</h3> 
+              <div>{this.render2dArray(seatGrid)}</div>
+            </div>
+            <div className='holding-list'>
+              <h3>Holding Seats</h3>
+              {/* loop the newReservations here... */}
+            </div>
           </div>
+          
         }
-        
-
-        
-        
       </div>
     )
   }
