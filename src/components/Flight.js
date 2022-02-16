@@ -8,13 +8,15 @@ const RAILS_FLIGHTS_SHOW_BASE_URL = "http://localhost:3000/flights/"
 const RAILS_RESERVATIONS_CREATE_BASE_URL = "" // TODO:
 
 
-// Function to generate a 2d array
 function generate2dArray(columns, rows) {
+  Array(rows)
   const array2d = [];
+
   for (let i = 0; i < rows; i++) {
     let array1d = [];
+
     for (let j = 0; j < columns; j++) {
-      array1d.push("");
+      array1d.push({name:'', hold: false});
     }
     array2d.push(array1d);
   }
@@ -22,10 +24,11 @@ function generate2dArray(columns, rows) {
 }
 
 function populate2dArray(array, column, row, name) {
-  array[column][row] = name;
+  array[column][row].name = name;
 }
-
-
+function populate2dArrayHolds(array, column, row) {
+  array[column][row].hold = true;
+}
 
 
 
@@ -68,14 +71,22 @@ export default class Flight extends Component {
   }
 
   // function to handle events when a seat is clicked
-  handleClick = (column, row, ev) => {
-    console.log("handleClick(): Column:",column, "Row:", row, "Event.target.classList: ", ev.target.classList);
-    if (ev.target.classList.contains("available")) {
-      this.addNewReservation(column,row);
-    } else if (ev.target.classList.contains("hold")) {
-      this.removeNewReservation();
-    }
+  handleClick = (column, row) => {
+    console.log("handleClick(): Column:",column, "Row:", row);
 
+    const existingHold = this.state.newReservations.find(res=> res.seat_row === row && res.seat_column === column)
+
+    if(existingHold){
+      console.log('EXISTING HOLD');
+      const copyNewRes = this.state.newReservations.slice()
+      
+      this.setState({newReservations: copyNewRes.filter(hold=>{
+        return !(hold.seat_row === row && hold.seat_column === column)
+      })})
+    }else{
+      this.addNewReservation(column,row);
+    }
+    
   }
 
   // function to render the plane's seat grid
@@ -84,12 +95,12 @@ export default class Flight extends Component {
       <div className='plane-seating-container'>
         {grid.map((item, row) => {
             return (
-              <div className='plane-seating-row'>
+              <div key={row} className='plane-seating-row'>
                 {item.map((sItem, column) => 
-                  sItem? 
-                  <div className="plane-seating-seat booked">{sItem}</div>
+                  sItem.name? 
+                  <div key={`${row+1}${String.fromCharCode(column+65)}`} className="plane-seating-seat booked">{sItem.name}</div>
                   :
-                  <div className="plane-seating-seat available" onClick={(ev) => this.handleClick(column, row, ev)}>
+                  <div key={`${row+1}${String.fromCharCode(column+65)}`} className={sItem.hold? "plane-seating-seat hold" : "plane-seating-seat available"} onClick={() => this.handleClick(column, row)}>
                     {`${row+1}${String.fromCharCode(column+65)}`}
                   </div>
                 )}
@@ -182,6 +193,12 @@ export default class Flight extends Component {
         populate2dArray(seatGrid, r.seat_column, r.seat_row, r.name)
       })
     }
+
+    if (this.state.newReservations.length !== 0) {
+      this.state.newReservations.forEach( r => {
+        populate2dArrayHolds(seatGrid, r.seat_row, r.seat_column)
+      })
+    }
     
     
 
@@ -194,23 +211,19 @@ export default class Flight extends Component {
           ?
           <h3>Loading...</h3>
           :
-          <div>
-            
-            <h3>{date} | Flight {flightID} | {origin} {'>'} {destination}</h3> 
-            <div>{this.render2dArray(seatGrid)}</div>
+          <div className='seat-reservation-wrapper'>
+            <div className='plane-container'>
+              <h3>{date} | Flight {flightID} | {origin} {'>'} {destination}</h3> 
+              <div>{this.render2dArray(seatGrid)}</div>
+            </div>
+            <div className='holding-list'>
+              <h4>Holding {this.state.newReservations.length} Seats</h4>
+              <button>Make Reservation</button>
+              {this.state.newReservations.map(r => <div key={`${r.seat_row+1}${String.fromCharCode(r.seat_column+65)}`}>{`${r.seat_row+1}${String.fromCharCode(r.seat_column+65)}`} </div>)}
+            </div>
           </div>
+          
         }
-        {
-          this.state.newReservations.length === 0
-          ?
-          <p>Please select a seat</p>
-          :
-          <button>Submit</button>
-        }
-        
-
-        
-        
       </div>
     )
   }
