@@ -9,11 +9,16 @@ export default class Header extends Component {
     this.props.history.push('/search')
   }
 
+  
+
   render() {
     return (
       <div className='header-wrapper'>
-        <h1>ZZY Airlines</h1>
-        <button onClick={this.handleClick}>Search Page</button>
+        <h1 className="logo-airlines">ZZY Airlines</h1>
+        <nav>
+          <button onClick={this.handleClick}>Search Page</button>
+          <button>My Reservations</button>
+        </nav>
       </div>
     )
   }

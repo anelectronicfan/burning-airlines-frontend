@@ -5,6 +5,7 @@ import "./BurningAirlines.css";
 import Header from "./Header";
 import Search from "./Search";
 import Flight from "./Flight";
+import Reservations from "./Reservations";
 
 
 export default class BurningAirlines extends Component {
@@ -18,8 +19,12 @@ export default class BurningAirlines extends Component {
         <Route path='/' component={Header}/>
         <Route path='/search' component={Search}/>
         <Route path='/flight/:id' component={Flight}/>
+        <Route path='/reservations' component={Reservations}/>
+       
 
       </Router>
+
+      <footer> &copy; ZZY AIRLINES </footer>
       </div>
     )
   }
