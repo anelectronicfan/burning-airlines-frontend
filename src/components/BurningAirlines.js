@@ -73,7 +73,7 @@ export default class BurningAirlines extends Component {
               )
           }
 
-        <Route path='/' component={Header}/>
+        <Route path='/' component={Header} currentUser = {this.state.currentUser}/>
 
         <Route path='/search' component={Search}/>
         <Route path='/flight/:id' component={Flight}/>
