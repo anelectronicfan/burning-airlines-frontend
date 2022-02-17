@@ -1,9 +1,18 @@
+import axios from 'axios';
 import React, { Component } from 'react';
 import './FlightsIndex.css';
-import axios from 'axios';
+
 
 
 const RAILS_AIRPLANES_BASE_URL = "http://localhost:3000/airplanes";
+const RAILS_CREATE_FLIGHT_URL = "http://localhost:3000/flights/"
+
+const selectPlanes = [
+    {label: "test1", value: 1},
+    {label: "test2", value: 2},
+    {label: "test3", value: 3},
+]
+    
 
 export default class FlightsForm extends Component {
 
@@ -16,9 +25,23 @@ export default class FlightsForm extends Component {
         searchResults: []
     };
 
-    handleSubmit=(e) =>{
+    handleSubmit= async (e) =>{
         e.preventDefault()
         console.log('submit clicked');
+        const newFlight = {
+            flight_id: this.state.flightID,
+            origin: this.state.origin,
+            destination: this.state.destination,
+            date: this.state.date,
+            airplane_id: this.state.plane
+        }
+        try {
+            const res = await axios.post(RAILS_CREATE_FLIGHT_URL, newFlight)
+            console.log('post newFlight ', res);
+        } catch (err) {
+            console.log('Error making new flight: ', err);
+        }
+
     }
 
 
@@ -65,9 +88,9 @@ export default class FlightsForm extends Component {
                 onChange={(e)=>this.setState({date: e.target.value})} 
                 />
                 <label>Plane</label>
-                <select name="planes">
+                <select name="planes" onChange={(e)=>this.setState({plane: e.target.value})} >
+                <option></option>
                     {this.state.searchResults.map(plane => <option key={plane.id} value={plane.id}>{plane.name}</option>  )}
-
                 </select>
                 
                 </div>
