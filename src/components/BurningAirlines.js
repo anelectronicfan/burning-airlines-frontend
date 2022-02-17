@@ -31,7 +31,7 @@ export default class BurningAirlines extends Component {
   setCurrentUser = () => {
     let token = "Bearer " + localStorage.getItem("jwt");
     console.log(token);
-    axios.get(`${BASE_URL}/users/current`, {
+    axios.get(`${BASE_URL}users/current`, {
       headers: {
         'Authorization': token
       }
