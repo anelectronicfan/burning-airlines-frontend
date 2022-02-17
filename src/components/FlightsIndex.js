@@ -59,7 +59,7 @@ export default class FlightsIndex extends Component {
           <ul>
             <p className="sectionTitle">Seats</p>
             {
-              flights.map( f => <li key={f.id}>{f.total_rows} > {f.total_columns}</li>)
+              flights.map( f => <li key={f.id}>{f.remaining_seats}</li>)
             }
           </ul>
         </div>
