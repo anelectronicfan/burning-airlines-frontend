@@ -29,7 +29,10 @@ export default class Header extends Component {
     this.props.history.push('/reservations')
   }
 
-  
+  renderButtons = () => {
+    const currentUser = this.props.route.currentUser
+    
+  }
   
 
   render() {
