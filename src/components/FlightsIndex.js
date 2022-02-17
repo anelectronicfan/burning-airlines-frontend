@@ -9,6 +9,7 @@ export default class FlightsIndex extends Component {
 
   state = {
     flights: [],
+    loading: true,
   
   }
 
@@ -19,50 +20,63 @@ export default class FlightsIndex extends Component {
     
 
     getFlightsIndex = async () => {
-        console.log("hello")
         try{
             const res = await axios.get( RAILS_FLIGHTS_SHOW_BASE_URL);
             console.log("Flights Index Response: ",res.data);
-            this.setState({flights: res.data })
+            this.setState({flights: res.data, loading:false })
         }catch(err){
             console.log('ERROR loading AJAX flights index: ',err);
         }
     }//get Reservations
 
   render() {
-    const { flights } = this.state;
-
+    const { loading, flights } = this.state;
+   
     return (
       <div>
         <h1>FlightsIndex</h1>
-
-        <div className="flightIndex">
-          <p>All Flights</p>
-          <ul>
-            <p className="sectionTitle">Date</p>
-            {
-              flights.map( f => <li key={f.id}>{f.date}</li>)
-            }
-          </ul>
-          <ul>
-            <p className="sectionTitle">Flight ID</p>
-            {
-              flights.map( f => <li key={f.id}>{f.airplane_id}</li>)
-            }
-          </ul>
-          <ul>
-            <p className="sectionTitle">To > From</p>
-            {
-              flights.map( f => <li key={f.id}>{f.origin} > {f.destination}</li>)
-            }
-          </ul>
-          <ul>
-            <p className="sectionTitle">Seats</p>
-            {
-              flights.map( f => <li key={f.id}>{f.remaining_seats}</li>)
-            }
-          </ul>
-        </div>
+        {
+          loading
+          ?
+          <p>Loading flights...</p>
+          :
+          <div className="flightIndex">
+            <p>All Flights</p>
+            <ul>
+              <p className="sectionTitle">Date</p>
+              {
+                flights.map( f => <li key={f.id}>{f.date}</li>)
+              }
+            </ul>
+            <ul>
+              <p className="sectionTitle">Flight ID</p>
+              {
+                flights.map( f => <li key={f.id}>{f.airplane_id}</li>)
+              }
+            </ul>
+            <ul>
+              <p className="sectionTitle">To > From</p>
+              {
+                flights.map( f => <li key={f.id}>{f.origin} > {f.destination}</li>)
+              }
+            </ul>
+            <ul>
+              <p className="sectionTitle">Seats</p>
+              {
+                flights.map( f => <li key={f.id}>{f.remaining_seats}</li>)
+              }
+            </ul>
+            <ul>
+              <p className="sectionTitle">Delete</p>
+              {
+                flights.map( f => 
+                  <li key={f.id}>
+                  <button>Delete</button>
+                  </li>)
+              }
+            </ul>
+          </div>
+        }
       
 
 
