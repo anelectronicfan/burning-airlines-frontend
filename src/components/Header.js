@@ -45,7 +45,6 @@ export default class Header extends Component {
           <button onClick={this.handleClick}>Search Page</button>
           <button onClick={this.handleClickAirplanes}>Airplanes</button>
           <button onClick={this.handleClickFlights}>Flights</button>
-          <button onClick={this.handleClickReservations}>My Reservations</button>
           
           
         
