@@ -50,7 +50,7 @@ export default class FlightsForm extends Component {
                 />
                 <label>Plane</label>
                 <select name="planes">
-                    
+                    {/* {this.state} */}
 
                 </select>
                 <select options={selectPlanes} placeholder={'Planes'} />
