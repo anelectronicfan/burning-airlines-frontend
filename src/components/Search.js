@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import FlightResult from './FlightResult'
 import './Search.css'
 
-const RAILS_FLIGHTS_BASE_URL = "http://localhost:3000/search";
+const RAILS_FLIGHTS_BASE_URL = "http://localhost:3000/api/search";
 
 export default class Search extends Component {
   state = {
