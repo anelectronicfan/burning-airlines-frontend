@@ -1,3 +1,31 @@
 .header-wrapper{
   /* border: 1px solid green; */
+  display: flex;
+  align-items: center;
+  width: 80vw;
+}
+
+.logo-airlines{
+    font-size: 38px;
+}
+
+nav{
+    
+    margin-left: auto;
+}
+
+.nav-button{
+    text-decoration: none;
+    width: 70px;
+    height: 20px;
+    background-color: red;
+    padding:5px;
+    color:white;
+    font-size: 15px;
+    transition: 0.25s;
+}
+.nav-button:hover{
+    outline: 1.5px solid red;
+    background-color: white;
+    color: red;
 }
