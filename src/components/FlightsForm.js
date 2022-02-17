@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+<<<<<<< HEAD
+=======
+// import Select from 'react-select';
+>>>>>>> f5b5d3d9f0fd3675f1d8206d95dbb79a313372d3
 import './FlightsIndex.css';
 
 const selectPlanes = [
@@ -48,6 +52,10 @@ export default class FlightsForm extends Component {
                 onChange={(e)=>this.setState({date: e.target.value})} 
                 />
                 <label>Plane</label>
+                <select name="planes">
+                    
+
+                </select>
                 <select options={selectPlanes} placeholder={'Planes'} />
                 </div>
                 <button>Create Flight</button>
