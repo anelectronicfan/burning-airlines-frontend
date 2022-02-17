@@ -1,15 +1,23 @@
 import React, { Component } from 'react'
 import axios from 'axios';
+import Select from 'react-select';
+import FlightsForm from './FlightsForm';
 import './FlightsIndex.css';
 
 
 const RAILS_FLIGHTS_SHOW_BASE_URL = "http://localhost:3000/api/admin/flights/"
-const RAILS_FLIGHTS_DELETE_BASE_URL = "http://localhost:3000/api/flights/"
+const RAILS_FLIGHTS_DELETE_BASE_URL = `http://localhost:3000/api/flights/${id}/delete`
+
 
 export default class FlightsIndex extends Component {
 
   state = {
     flights: [],
+    id: '',
+    origin: '',
+    destination: '',
+    date: '',
+    plane: '',
     loading: true,
   
   }
@@ -20,7 +28,6 @@ export default class FlightsIndex extends Component {
     window.setInterval(this.getFlightsIndex,30000);
   }
     
-
   getFlightsIndex = async () => {
     try{
         const res = await axios.get( RAILS_FLIGHTS_SHOW_BASE_URL);
@@ -33,8 +40,8 @@ export default class FlightsIndex extends Component {
 
   deleteFlight = async () => {
     try{
-      const res = await axios.delete(RAILS_FLIGHTS_DELETE_BASE_URL, {flights: res.data.id })
-
+      const res = await axios.delete(RAILS_FLIGHTS_DELETE_BASE_URL, {params: id })
+      console.log('delete url: ',id)
 
       this.setState({
         flights: [ res.data, ...this.state.flights ]
@@ -44,23 +51,22 @@ export default class FlightsIndex extends Component {
     }
   };
 
+  handleDelete=(e) =>{
+    e.preventDefault()
+    console.log('Delete clicked');
+    this.deleteFlight();
+  }
+
   render() {
     const { loading, flights } = this.state;
+    
    
     return (
 
       <div>
         <h1>FlightsIndex</h1>
-        <div className="flightIndex">
-          <p>Add New Flight</p>
-          <form>
-            <div className="form-input-container"></div>
-            <label>Origin</label>
-            <input 
-            type="text"
-            placeholder="Origin"></input>
-          </form>
-        </div>
+        
+        <FlightsForm />
 
         {
           loading
@@ -98,7 +104,7 @@ export default class FlightsIndex extends Component {
               {
                 flights.map( f => 
                   <li key={f.id}>
-                  <button>Delete</button>
+                  <button onClick={this.handleDelete}>Delete</button>
                   </li>)
               }
             </ul>

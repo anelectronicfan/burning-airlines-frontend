@@ -4,7 +4,7 @@
 }
 
 .flightIndex li{
-    margin: 5px;
+    margin: 20px;
 }
 
 .flightIndex ul{
@@ -12,4 +12,7 @@
     display: inline-block;
     padding:5px;
     list-style-type: none;
+}
+button{
+    margin: 0px;
 }
