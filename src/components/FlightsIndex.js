@@ -53,6 +53,13 @@ export default class FlightsIndex extends Component {
         <h1>FlightsIndex</h1>
         <div className="flightIndex">
           <p>Add New Flight</p>
+          <form>
+            <div className="form-input-container"></div>
+            <label>Origin</label>
+            <input 
+            type="text"
+            placeholder="Origin"></input>
+          </form>
         </div>
 
         {
