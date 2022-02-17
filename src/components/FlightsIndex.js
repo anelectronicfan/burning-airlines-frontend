@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios';
 
 
-const RAILS_FLIGHTS_SHOW_BASE_URL = "http://localhost:3000/flights/"
+const RAILS_FLIGHTS_SHOW_BASE_URL = "http://localhost:3000/admin/flights/"
 
 export default class FlightsIndex extends Component {
 
