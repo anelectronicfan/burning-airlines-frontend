@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import axios from 'axios';
-import Select from 'react-select';
 import FlightsForm from './FlightsForm';
 import './FlightsIndex.css';
 
