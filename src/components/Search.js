@@ -7,8 +7,8 @@ const RAILS_FLIGHTS_BASE_URL = "http://localhost:3000/api/search";
 
 export default class Search extends Component {
   state = {
-    queryFrom: "", //TODO: set this back to empty string
-    queryTo: "", //TODO: set this back to empty string
+    queryFrom: "",
+    queryTo: "", 
     searchResults: [], // results to show on the page
     loading: false, // controls whether or not to show loading message
     error: null, // whether or not to show an error message
