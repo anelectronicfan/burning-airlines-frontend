@@ -49,6 +49,10 @@ export default class FlightsForm extends Component {
                 onChange={(e)=>this.setState({date: e.target.value})} 
                 />
                 <label>Plane</label>
+                <select name="planes">
+                    
+
+                </select>
                 <select options={selectPlanes} placeholder={'Planes'} />
                 </div>
                 <button>Create Flight</button>
