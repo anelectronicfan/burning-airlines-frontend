@@ -1,8 +1,15 @@
-import axios from 'axios';
+
 import React, { Component } from 'react'
 import './Header.css';
 
+
+import { HashRouter as Router, Route, Link } from "react-router-dom";
+
+
+
+
 export default class Header extends Component {
+  
   
   handleClick = ()=>{
     console.log('clicked');
@@ -23,18 +30,25 @@ export default class Header extends Component {
   }
 
   
+  
 
   render() {
     return (
-      <div className='header-wrapper'>
+      <Router>
+        <div className='header-wrapper'>
 
-        <h1>ZZY Airlines</h1>
-        <button onClick={this.handleClick}>Search Page</button>
-        <button onClick={this.handleClickAirplanes}>Airplanes</button>
-        <button onClick={this.handleClickFlights}>Flights</button>
-        <button onClick={this.handleClickReservations}>My Reservations</button>
+          <h1>ZZY Airlines</h1>
+          <button onClick={this.handleClick}>Search Page</button>
+          <button onClick={this.handleClickAirplanes}>Airplanes</button>
+          <button onClick={this.handleClickFlights}>Flights</button>
+          <button onClick={this.handleClickReservations}>My Reservations</button>
+          
+          
+        
 
-      </div>
+        </div>
+        
+      </Router>
     )
   }
 }
