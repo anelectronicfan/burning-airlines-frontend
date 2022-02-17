@@ -1,0 +1,15 @@
+.sectionTitle{
+    text-decoration: underline;
+    margin: 0px 0px 10px 0px;
+}
+
+.flightIndex li{
+    margin: 5px;
+}
+
+.flightIndex ul{
+   
+    display: inline-block;
+    padding:5px;
+    list-style-type: none;
+}
