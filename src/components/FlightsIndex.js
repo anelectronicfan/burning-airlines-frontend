@@ -6,7 +6,7 @@ import './FlightsIndex.css';
 
 
 const RAILS_FLIGHTS_SHOW_BASE_URL = "http://localhost:3000/api/admin/flights/"
-const RAILS_FLIGHTS_DELETE_BASE_URL = `http://localhost:3000/api/flights/${id}/delete`
+const RAILS_FLIGHTS_DELETE_BASE_URL = `http://localhost:3000/api/flights/`
 
 
 export default class FlightsIndex extends Component {
@@ -39,9 +39,10 @@ export default class FlightsIndex extends Component {
   }//getFlightIndex
 
   deleteFlight = async () => {
+    const flightID= this.state.id;
     try{
-      const res = await axios.delete(RAILS_FLIGHTS_DELETE_BASE_URL, {params: id })
-      console.log('delete url: ',id)
+      const res = await axios.delete(`http://localhost:3000/api/flights/${flightID}/delete`)
+      console.log('delete url: ', flightID)
 
       this.setState({
         flights: [ res.data, ...this.state.flights ]
