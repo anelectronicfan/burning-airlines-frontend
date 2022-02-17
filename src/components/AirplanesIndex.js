@@ -4,7 +4,7 @@ import Plane from './Plane'
 
 
 
-const RAILS_AIRPLANES_BASE_URL = "http://localhost:3000/api/airplanes";
+const RAILS_AIRPLANES_BASE_URL = "http://localhost:3000/airplanes";
 
 
 export default class AirplanesIndex extends Component {

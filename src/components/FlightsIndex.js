@@ -3,8 +3,8 @@ import axios from 'axios';
 import './FlightsIndex.css';
 
 
-const RAILS_FLIGHTS_SHOW_BASE_URL = "http://localhost:3000/api/admin/flights/"
-const RAILS_FLIGHTS_DELETE_BASE_URL = "http://localhost:3000/api/flights/"
+const RAILS_FLIGHTS_SHOW_BASE_URL = "http://localhost:3000/admin/flights/"
+const RAILS_FLIGHTS_DELETE_BASE_URL = "http://localhost:3000/flights/"
 
 export default class FlightsIndex extends Component {
 

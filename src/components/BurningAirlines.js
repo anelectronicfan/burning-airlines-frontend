@@ -13,7 +13,7 @@ import FlightsIndex from "./FlightsIndex";
 import Login from './Login'
 import MyProfile from './MyProfile'
 
-const BASE_URL = 'http://localhost:3000/api'
+const BASE_URL = 'http://localhost:3000/'
 
 
 
@@ -30,6 +30,7 @@ export default class BurningAirlines extends Component {
 
   setCurrentUser = () => {
     let token = "Bearer " + localStorage.getItem("jwt");
+    console.log(token);
     axios.get(`${BASE_URL}/users/current`, {
       headers: {
         'Authorization': token

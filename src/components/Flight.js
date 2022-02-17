@@ -4,7 +4,7 @@ import "./Flight.css";
 
 import axios from 'axios';
 
-const RAILS_FLIGHTS_SHOW_BASE_URL = "http://localhost:3000/api/flights/"
+const RAILS_FLIGHTS_SHOW_BASE_URL = "http://localhost:3000/flights/"
 const RAILS_RESERVATIONS_CREATE_BASE_URL = "http://localhost:3000/reservations"
 
 
