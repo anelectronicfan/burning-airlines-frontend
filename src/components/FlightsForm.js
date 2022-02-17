@@ -1,16 +1,9 @@
 import React, { Component } from 'react';
-<<<<<<< HEAD
-=======
-// import Select from 'react-select';
->>>>>>> f5b5d3d9f0fd3675f1d8206d95dbb79a313372d3
 import './FlightsIndex.css';
+import axios from 'axios';
 
-const selectPlanes = [
-    {label: "test1", value: 1},
-    {label: "test2", value: 2},
-    {label: "test3", value: 3},
-]
-    
+
+const RAILS_AIRPLANES_BASE_URL = "http://localhost:3000/airplanes";
 
 export default class FlightsForm extends Component {
 
@@ -20,12 +13,32 @@ export default class FlightsForm extends Component {
         destination: '',
         date: '',
         plane: '',
+        searchResults: []
     };
 
     handleSubmit=(e) =>{
         e.preventDefault()
         console.log('submit clicked');
     }
+
+
+      getAirplanes = async () => {
+        try {
+        const res = await axios.get(RAILS_AIRPLANES_BASE_URL)
+          console.log('Airplanes Response: ', res.data);
+          this.setState({searchResults: res.data})
+        } catch (err) {
+          console.log("ERROR AJAX AIRPLANES: ", err);
+          this.setState({ error: err });
+        }
+      };
+    
+      componentDidMount(){
+        this.getAirplanes()
+      }
+
+
+
 
     render(){
         return(
@@ -53,10 +66,10 @@ export default class FlightsForm extends Component {
                 />
                 <label>Plane</label>
                 <select name="planes">
-                    {/* {this.state} */}
+                    {this.state.searchResults.map(plane => <option key={plane.id} value={plane.id}>{plane.name}</option>  )}
 
                 </select>
-                <select options={selectPlanes} placeholder={'Planes'} />
+                
                 </div>
                 <button>Create Flight</button>
             </form>
