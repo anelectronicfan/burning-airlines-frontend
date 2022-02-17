@@ -2,6 +2,9 @@ import axios from 'axios';
 import React, { Component } from 'react';
 import './FlightsIndex.css';
 
+
+
+const RAILS_AIRPLANES_BASE_URL = "http://localhost:3000/airplanes";
 const RAILS_CREATE_FLIGHT_URL = "http://localhost:3000/flights/"
 
 const selectPlanes = [
@@ -19,17 +22,18 @@ export default class FlightsForm extends Component {
         destination: '',
         date: '',
         plane: '',
+        searchResults: []
     };
 
     handleSubmit= async (e) =>{
         e.preventDefault()
         console.log('submit clicked');
         const newFlight = {
-            flightID: this.state.flightID,
+            flight_id: this.state.flightID,
             origin: this.state.origin,
             destination: this.state.destination,
             date: this.state.date,
-            plane: this.state.plane
+            airplane_id: this.state.plane
         }
         try {
             const res = await axios.post(RAILS_CREATE_FLIGHT_URL, newFlight)
@@ -39,6 +43,25 @@ export default class FlightsForm extends Component {
         }
 
     }
+
+
+      getAirplanes = async () => {
+        try {
+        const res = await axios.get(RAILS_AIRPLANES_BASE_URL)
+          console.log('Airplanes Response: ', res.data);
+          this.setState({searchResults: res.data})
+        } catch (err) {
+          console.log("ERROR AJAX AIRPLANES: ", err);
+          this.setState({ error: err });
+        }
+      };
+    
+      componentDidMount(){
+        this.getAirplanes()
+      }
+
+
+
 
     render(){
         return(
@@ -65,11 +88,11 @@ export default class FlightsForm extends Component {
                 onChange={(e)=>this.setState({date: e.target.value})} 
                 />
                 <label>Plane</label>
-                <select name="planes">
-                    
-
+                <select name="planes" onChange={(e)=>this.setState({plane: e.target.value})} >
+                <option></option>
+                    {this.state.searchResults.map(plane => <option key={plane.id} value={plane.id}>{plane.name}</option>  )}
                 </select>
-                <select options={selectPlanes} placeholder={'Planes'} />
+                
                 </div>
                 <button>Create Flight</button>
             </form>

@@ -65,7 +65,7 @@ export default class FlightsIndex extends Component {
       <div>
         <h1>FlightsIndex</h1>
         
-        <FlightsForm />
+        <FlightsForm flights={this.state.flights} />
 
         {
           loading

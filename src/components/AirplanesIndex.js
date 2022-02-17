@@ -31,9 +31,21 @@ export default class AirplanesIndex extends Component {
     this.getAirplanes()
   }
 
-  handleSubmit=(e)=>{
+  handleSubmit= async (e)=>{
     e.preventDefault()
     console.log('SUBMIT CLICKED');
+    const newPlane = {
+      name: this.state.name,
+      total_rows: this.state.rows,
+      total_columns: this.state.columns
+    }
+    try {
+      const res = await axios.post(RAILS_AIRPLANES_BASE_URL, newPlane)
+      console.log('post newPlane ', res);
+      this.getAirplanes()
+    } catch (err) {
+      console.log('Error making new plane: ', err)
+    }
   }
   
     
