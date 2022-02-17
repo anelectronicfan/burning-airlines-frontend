@@ -1,6 +1,9 @@
+import axios from 'axios';
 import React, { Component } from 'react';
 // import Select from 'react-select';
 import './FlightsIndex.css';
+
+const RAILS_CREATE_FLIGHT_URL = "http://localhost:3000/flights/"
 
 const selectPlanes = [
     {label: "test1", value: 1},
@@ -19,9 +22,23 @@ export default class FlightsForm extends Component {
         plane: '',
     };
 
-    handleSubmit=(e) =>{
+    handleSubmit= async (e) =>{
         e.preventDefault()
         console.log('submit clicked');
+        const newFlight = {
+            flightID: this.state.flightID,
+            origin: this.state.origin,
+            destination: this.state.destination,
+            date: this.state.date,
+            plane: this.state.plane
+        }
+        try {
+            const res = await axios.post(RAILS_CREATE_FLIGHT_URL, newFlight)
+            console.log('post newFlight ', res);
+        } catch (err) {
+            console.log('Error making new flight: ', err);
+        }
+
     }
 
     render(){
